@@ -1,0 +1,100 @@
+<?php
+
+use App\Models\StaffingCompany\StaffingProject;
+use Illuminate\Database\Seeder;
+
+class StaffingProjectTableSeeder extends Seeder
+{
+    public function run()
+    {
+        StaffingProject::create([
+            'customer_id' => 1,
+            'department_id' => 1,
+            'name' => 'testing',
+            'performer' => 'testing',
+            'start_date' => '2023-04-05',
+            'end_date' => '2023-04-05',
+            'project_manager' => 'testing',
+            'description' => 'testing',
+            'fixed_price' => 'testing',
+            'edu_project_no' => 'testing',
+            'client_project_no' => 'testing',
+            'address' => 'testing',
+            'post_code' => 'testing',
+            'city' => 'lahore',
+            'lat' => 'testing',
+            'long' => 'testing',
+            'weekly_statement' => 'testing',
+            'price_agreement' => 'testing',
+            'no_of_times_per_week' => 'testing',
+            'unit' => 'testing',
+            'no_of_chain' => 'testing',
+            'price' => 'testing',
+            'purchase_price' => 'testing',
+            'dates' => 'testing',
+            'approval' => 'testing',
+            'notes' => 'testing',
+            'active' => 0,
+        ]);
+
+        StaffingProject::create([
+            'customer_id' => 2,
+            'department_id' => 3,
+            'performer' => 'testing',
+            'name' => 'ahmad',
+            'start_date' => '2023-04-05',
+            'end_date' => '2023-04-05',
+            'project_manager' => 'testing',
+            'description' => 'testing',
+            'fixed_price' => 'testing',
+            'edu_project_no' => 'testing',
+            'client_project_no' => 'testing',
+            'address' => 'testing',
+            'post_code' => 'testing',
+            'city' => 'NYC',
+            'lat' => 'testing',
+            'long' => 'testing',
+            'weekly_statement' => 'testing',
+            'price_agreement' => 'testing',
+            'no_of_times_per_week' => 'testing',
+            'unit' => 'testing',
+            'no_of_chain' => 'testing',
+            'price' => 'testing',
+            'purchase_price' => 'testing',
+            'dates' => 'testing',
+            'approval' => 'testing',
+            'notes' => 'testing',
+            'active' => 1,
+        ]);
+
+        StaffingProject::create([
+            'customer_id' => 4,
+            'department_id' => 4,
+            'performer' => 'testing',
+            'name' => 'noman',
+            'start_date' => '2023-04-05',
+            'end_date' => '2023-04-05',
+            'project_manager' => 'testing',
+            'description' => 'testing',
+            'fixed_price' => 'testing',
+            'edu_project_no' => 'testing',
+            'client_project_no' => 'testing',
+            'address' => 'testing',
+            'post_code' => 'testing',
+            'city' => 'LONDON',
+            'lat' => 'testing',
+            'long' => 'testing',
+            'weekly_statement' => 'testing',
+            'price_agreement' => 'testing',
+            'no_of_times_per_week' => 'testing',
+            'unit' => 'testing',
+            'no_of_chain' => 'testing',
+            'price' => 'testing',
+            'purchase_price' => 'testing',
+            'dates' => 'testing',
+            'approval' => 'testing',
+            'notes' => 'testing',
+            'active' => 1,
+        ]);
+    }
+}

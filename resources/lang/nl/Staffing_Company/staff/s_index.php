@@ -1,0 +1,31 @@
+<?php
+
+return [
+    'staff' => "Personnel",
+    'add_new' => "Personeel toevoegen",
+    'copy' => "Kopiëren",
+    'csv' => "CSV",
+    'excel' => "Excelleren",
+    'pdf' => "PDF",
+    'print' => "Afdrukken",
+    'column' => "Kolom Zichtbaarheid",
+    'first_name' => "Voornaam",
+    'last_name' => "Achternaam",
+    'name'=>"naam",
+    'email'=>"Email",
+    'vca_number'=>"VCA-Nummer",
+    'mobile'=>"Mobiel",
+    'nationailty'=>"Nationaliteit",
+    'bsn' => "BSN",
+    'emp_agency' => "Uitzendbureau",
+    'status' => "Toestand",
+    'option' => "Opties",
+    'active' => "Actief",
+    'inactive' => "Inactief",
+    'job' => "Functie",
+    'address'=>"adres",
+    'reset_password'=>"Wachtwoord Opnieuw Instellen",
+    'all'=>"Alles",
+    'send_credentials'=>"Stuur Inloggegevens",
+
+];

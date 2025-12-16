@@ -1,0 +1,25 @@
+<?php
+
+return [
+    'name' => 'Naam',
+    'from_week_no' => 'Vanaf weeknummer',
+    'to_week_no' => 'Tot weeknummer',
+    'search' => 'Zoeken',
+    'work_history' => 'WERKGESCHIEDENIS',
+    'week_number' => 'Weeknummer',
+    'project_name' => 'Projectnaam',
+    'employment_agency' => 'Uitzendbureau',
+    'employment_function' => 'Functie',
+    'mon' => 'Ma',
+    'tue' => 'Di',
+    'wed' => 'Wo',
+    'thu' => 'Do',
+    'fri' => 'Vr',
+    'sat' => 'Za',
+    'sun' => 'Zo',
+    'total' => 'Totaal',
+    'data_not_available' => 'Gegevens niet beschikbaar.',
+    'from_week' => 'Vanaf Week',
+    'to_week' => 'Tot Week',
+    'pdf' => 'PDF',
+];

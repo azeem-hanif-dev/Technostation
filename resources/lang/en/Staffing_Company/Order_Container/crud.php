@@ -1,0 +1,40 @@
+<?php
+
+return [
+  'create_order' => "Create Order Waste Container",
+  'project_name' => "Project Name",
+  'department' => "Department",
+  'project_address' => "Project Address",
+  'zipcode_city' => "Zipcode city",
+  'mobile_number' => "Mobile number",
+  'order_date_time' => "Order Date Time",
+  'waste_processor' => "Container supplier",
+  'email_waste_processor' => "Email Container supplier",
+  'telephone' => "Telephone number Container supplier",
+  'order_by' => "Order by",
+  'order_create_by' => "Order Create By",
+  'execution_date' => "Execution date",
+  'container_notes' => "Container notes",
+  'comments' => "Comments",
+  'approved_by' => "Approved By",
+  'part_of_the_day' => "Part of the day / desired time",
+  'container_type' => "Container type",
+  'number_of_containers' => "Number of containers",
+  'place' => "Place",
+  'vary' => "Vary",
+  'disposal' => "Disposal",
+  'roll_container' => "Roll container",
+  'number_per_waste' => "Number per waste stream",
+    'debris' => "Debris",
+    'wood' => "Wood",
+  'paper' => "Paper",
+  'diverse' => "Miscellaneous",
+
+    'next' => "Next",
+    'submit' => "Submit",
+    'back' => "Back",
+//   alerts
+     'created_successfully'=>"Order Container Created Successfully!",
+     'update_successfully'=>"Order Container Updated Successfully!",
+  
+];

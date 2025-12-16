@@ -1,0 +1,31 @@
+
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+.navbar-laravel {
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+/* Dark mode fix for vue-select */
+body.dark-mode .vs__dropdown-menu {
+    // background-color: #333 !important;
+    color: black !important;
+}
+
+body.dark-mode .vs__dropdown-option {
+    color: black !important;
+}
+body.dark-mode .vs__selected,
+body.dark-mode .vs__search {
+    color: black !important;
+}
+
+
+
+

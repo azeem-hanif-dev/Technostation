@@ -1,0 +1,32 @@
+<?php
+
+return [
+    'dashboard' => "Dashboards",
+    'staff_function' => "Staff Functions",
+    'staff' => "Staff",
+    'customer_heading' => "Customers Management",
+    'container_management' => "Container Management",
+    
+    'customer' => "Customers",
+    'department' => "Departments",
+    'project' => "Projects",
+    'camp_maintenance' => "Camp Maintenance",
+    'project_planning' => "Project Plannings",
+    'contact' => "Contacts",
+    'mgmt_functions' => "Management Functions",
+    'request_staff' => "Request Staff",
+    'container_supplier' => "Container Suppliers",
+    'order_waste_container' => "Order Waste Container",
+    'week_statement' => "Weekly Statement",
+    'week_weekly_statement' => "Week Weekstaten",
+    'comment' => "Comments",
+    'employment_agency' => "Employment Agency",
+    'employment_agency_overview'=>"Employment Agency Overview ",
+    'right_modules'=>" Rights Module",
+    'user_profile' => "User Profile",
+    'activity_log'=>"Activity Log",
+    'quotations' => "Quotations",
+    'offers' => "Offers",
+    'multi_service' => "Multi Service",
+    'container_qoutation' => "Container Quotation",
+];

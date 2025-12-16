@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'id'=>'id',
+    'title'          => 'Nieuwe offerte aanmaken',
+    'customer'       => 'Klant',
+    'project'        => 'Project',
+    'contact_person' => 'Contactpersoon',
+    'date'           => 'Datum',
+    'content'        => 'Inhoud',
+    'waste_type'     => 'Afvaltype',
+    'back'           => 'Terug',
+    'cancel'         => 'Annuleren',
+    'update'         => 'Bijwerken',
+    'weight'         => 'Gewicht (Ton)',
+    'price_per_ton'  => 'Prijs per ton',
+    'extra_charge'   => 'Extra kosten',
+    'remarks'        => 'Opmerkingen',
+    'action'         => 'Actie',
+    'add_item'       => 'Item toevoegen',
+    'items'          => 'Items',
+    'save'           => 'Submit',
+    'total'          => 'Totaal',
+    'edit_quotations' => 'Offerte bewerken',
+    'success_message' => 'Offerte succesvol aangemaakt.',
+    'update_message'  => 'Offerte succesvol bijgewerkt.',
+];

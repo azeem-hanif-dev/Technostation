@@ -1,0 +1,27 @@
+<?php
+
+return [
+    'id' => 'id',
+    'title'           => 'Create New Quotation',
+    'customer'        => 'Customer',
+    'project'         => 'Project',
+    'contact_person'  => 'Contact Person',
+    'date'            => 'Date',
+    'back'            => 'Back',
+    'cancel'          => 'Cancel',
+    'update'          => 'Update',
+    'content'         => 'Content',
+    'waste_type'      => 'Waste Type',
+    'weight'          => 'Weight (Ton)',
+    'price_per_ton'   => 'Price per Ton',
+    'extra_charge'    => 'Extra Charge',
+    'remarks'         => 'Remarks',
+    'action'          => 'Action',
+    'add_item'        => 'Add Item',
+    'total'           => 'Total',
+    'save'            => 'Submit',
+    'items'           => 'Items',
+    'edit_quotations' => 'Edit Quotation',
+    'success_message' => 'Quotation created successfully.',
+    'update_message'  => 'Quotation updated successfully.',
+];
