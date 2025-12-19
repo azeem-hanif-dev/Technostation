@@ -19,7 +19,7 @@ class CreateStaffingProjectsTable extends Migration
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
             $table->string('project_manager');
-            $table->text('description');
+            $table->longText('description');
             $table->string('fixed_price');
             $table->string('edu_project_no');
             $table->string('client_project_no');

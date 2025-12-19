@@ -17,7 +17,7 @@
                                 <div class="row">
                                     <label
                                         class="ml-5 mr-2 mt-2">{{ __('Staffing_Company/Week_State/w_index.year') }}</label>
-                                    <select style="width: 100px;" class="form-control" name="year">
+                                    <select id="filter_year" style="width: 100px;" class="form-control" name="year">
                                         @foreach ($years as $y)
                                             <option value="{{ $y }}"
                                                 {{ isset($year) && $year == $y ? 'selected' : '' }}>
@@ -27,7 +27,7 @@
                                     </select>
 
                                     <label class="ml-2 mr-2 mt-2">{{ __('Staffing_Company/common.week_no') }}.</label>
-                                    <select style="width: 70px;" class="form-control" name="week_no">
+                                    <select id="filter_week_no" style="width: 70px;" class="form-control" name="week_no">
                                         @for ($i = 1; $i <= 52; $i++)
                                             <option value="{{ $i }}"
                                                 {{ isset($week_no) && $week_no == $i ? 'selected' : '' }}>
@@ -41,7 +41,7 @@
                                     <label
                                         class="mt-2 ml-1">{{ __('Staffing_Company/Week_State/w_index.only_open') }}</label>
 
-                                    <button type="submit" class="btn btn-primary btn-sm ml-2">
+                                    <button type="button" id="filterBtn" class="btn btn-primary btn-sm ml-2">
                                         {{ __('Staffing_Company/Week_State/w_index.search') }}
                                     </button>
                                 </div>
@@ -59,119 +59,23 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <table id="example1" class="table table-bordered table-striped">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>{{ __('Staffing_Company/common.week_no') }}.</th>
-                                <th>{{ __('Staffing_Company/common.project') }}</th>
-                                <th>{{ __('Staffing_Company/Week_State/w_index.delay_date') }}</th>
-                                <th>{{ __('Staffing_Company/Week_State/w_index.received_date') }}</th>
-                                <th>{{ __('Staffing_Company/Week_State/w_index.invoice_date') }}</th>
-                                <th>{{ __('Staffing_Company/common.status') }}</th>
-                                <th>{{ __('Staffing_Company/common.done') }}</th>
-                                <th>{{ __('Staffing_Company/common.option') }}</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($week_states as $week_state)
-                                @if ($week_state->projects->isEmpty())
-                                    <tr>
-                                        <td>{{ $week_state->id }}</td>
-                                        <td>{{ $week_state->week_no }}</td>
-                                        <td style="background-color: #ff8200; color: white">No projects available</td>
-                                        <td>{{ $week_state->delay_date }}</td>
-                                        <td>{{ $week_state->receive_date }}</td>
-                                        <td>{{ $week_state->invoice_date }}</td>
-                                        <td>{{ $week_state->status }}</td>
-                                        <td>
-                                            @if ($week_state->approved == 1)
-                                                <button
-                                                    class="btn btn-sm btn-success">{{ __('Staffing_Company/common.close') }}</button>
-                                            @else
-                                                <button
-                                                    class="btn btn-sm btn-danger">{{ __('Staffing_Company/common.open') }}</button>
-                                            @endif
-                                        </td>
-                                        <td>
-                                            <div class="row">
-                                                <a href="{{ route('week-state.view', $week_state->id) }}">
-                                                    <i style="color: green;" class="col fa fa-eye"></i>
-                                                </a>
-                                                <a href="{{ route('week-state.edit', $week_state->id) }}">
-                                                    <i style="color: green;" class="col far fa-edit"></i>
-                                                </a>
-                                                <form method="POST"
-                                                    action="{{ route('week-state.destroy', $week_state->id) }}"
-                                                    id="delete-form-{{ $week_state->id }}">
-                                                    @csrf
-                                                    @method('Delete')
-                                                    <i style="color: red" type="button"
-                                                        onclick="confirmDelete({{ $week_state->id }})"
-                                                        class="col fas fa-trash"></i>
-                                                </form>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @else
-                                    @foreach ($week_state->projects as $project)
-                                        <tr>
-                                            <td>{{ $week_state->id }}</td>
-                                            <td>{{ $week_state->week_no }}</td>
-                                            <td>{{ $project->name }}</td>
-                                            <td>{{ $week_state->delay_date }}</td>
-                                            <td>{{ $week_state->receive_date }}</td>
-                                            <td>{{ $week_state->invoice_date }}</td>
-                                            <td>{{ $week_state->status }}</td>
-                                            <td>
-                                                @if ($week_state->approved == 1)
-                                                    <button
-                                                        class="btn btn-sm btn-success">{{ __('Staffing_Company/common.close') }}</button>
-                                                @else
-                                                    <button
-                                                        class="btn btn-sm btn-danger">{{ __('Staffing_Company/common.open') }}</button>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <div class="row">
-                                                    <a
-                                                        href="{{ route('week-state.view', $week_state->id) }}?project_id={{ $project->id }}">
-                                                        <i style="color: green;" class="col fa fa-eye"></i>
-                                                    </a>
-                                                    {{-- <a href="{{route('week-state.edit', $week_state->id)}}?project_id={{ $project->id }}">
-                                                        <i style="color: green;" onclick="@php Session::flash('project_id',$project->id) @endphp" class="col far fa-edit"></i>
-                                                    </a> --}}
+              <table id="example1" class="table table-bordered table-striped w-100">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Week No.</th>
+            <th>Project</th>
+            <th>Delay Date</th>
+            <th>Received Date</th>
+            <th>Invoice Date</th>
+            <th>Status</th>
+            <th>Done</th>
+            <th>Option</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
 
-                                                    <form action="{{ route('week-state.edit', $week_state->id) }}"
-                                                        method="Post" id="editForm-{{ $week_state->id }}">
-                                                        @csrf
-                                                        <input type="hidden" name="project_id"
-                                                            value="{{ $project->id }}">
-                                                    </form>
-
-                                                    <a href="{{ route('week-state.edit', $week_state->id) }}#{{ $project->id }}"
-                                                        onclick="handleEditClick(event, {{ $week_state->id }}, {{ $project->id }});">
-
-                                                        <i style="color: green;" class="col far fa-edit"></i>
-                                                    </a>
-
-                                                    <form method="POST"
-                                                        action="{{ route('week-state.destroy', $week_state->id) }}?project_id={{ $project->id }}"
-                                                        id="delete-form-{{ $week_state->id }}">
-                                                        @csrf
-                                                        @method('Delete')
-                                                        <i style="color: red" type="button"
-                                                            onclick="confirmDelete({{ $week_state->id }})"
-                                                            class="col fas fa-trash"></i>
-                                                    </form>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            @endforeach
-                        </tbody>
-                    </table>
                 </div>
                 <!-- /.card-body -->
                 <div class="modal fade" id="exampleModal" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -283,21 +187,54 @@
 
     <!-- Page specific script -->
     <script>
-        $(function() {
-            $("#example1").DataTable({
-                "lengthMenu": [
-                    [25, 50, 100, -1],
-                    [25, 50, 100, "All"]
-                ],
-                "order": [
-                    [0, "desc"]
-                ],
-                "responsive": true,
-                "lengthChange": true,
-                "autoWidth": false,
-                "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        });
+    let searchClicked = false;
+ let table = $('#example1').DataTable({
+    processing: true,
+    serverSide: true,
+    ajax: {
+        url: "{{ route('week-states.data') }}",
+        data: function(d) {
+            if (searchClicked) {
+                d.year = $('#filter_year').val();
+                d.week_no = $('#filter_week_no').val();
+            }
+        }
+    },
+    order: [[0, 'desc']],
+    columns: [
+        { data: 'id' },
+        { data: 'week_no' },
+        { data: 'project', orderable: false, searchable: true },
+        { data: 'delay_date' },
+        { data: 'receive_date' },
+        { data: 'invoice_date' },
+{ data: 'status', name: 'status' }, // <-- raw status
+    { 
+        data: 'approved',                 // <-- new column for button
+        orderable: false,
+        searchable: false,
+        render: function(data, type, row) {
+            if (data == 1) {
+                return '<button class="btn btn-sm btn-success">{{ __("Staffing_Company/common.close") }}</button>';
+            } else {
+                return '<button class="btn btn-sm btn-danger">{{ __("Staffing_Company/common.open") }}</button>';
+            }
+        }
+    },
+        { data: 'actions', orderable: false, searchable: false }
+    ],
+    responsive: true,
+    lengthMenu: [[25,50,100,500,1000],[25,50,100,500,1000]],
+    dom: `<'row mb-2'<'col-sm-12 col-md-6'l><'col-sm-12 col-md-6'f>>
+          <'row mb-2'<'col-sm-12'B>>
+          <'row'<'col-sm-12'tr>>
+          <'row mt-2'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>`,
+    buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"]
+});
+$('#filterBtn').click(function() {
+    searchClicked = true;
+    table.ajax.reload();
+});
 
         function confirmDelete(itemId) {
             if (confirm('Are you sure you want to delete this?')) {

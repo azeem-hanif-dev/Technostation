@@ -192,6 +192,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['middleware' => 'user-rights:11'], function () {
+        Route::get('/week-states/data', [WeekStateController::class, 'getWeekStates'])->name('week-states.data');
         Route::any('/week-state/{id}/edit', [WeekStateController::class, 'edit_week'])->name('week-state.edit');
         Route::resource('/week-state', 'StaffingCompany\WeekStateController');
         Route::get('/week-weekly-state', 'StaffingCompany\WeekStateController@weekWiseProjects')->name('week-weekly-state');
@@ -223,6 +224,8 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::get('/staffing_projects', 'StaffingCompany\StaffingProjectController@index')->name('staffing_projects.index');
         Route::get('/staffing_projects/{id}', 'StaffingCompany\StaffingProjectController@show')->name('staffing_projects.show');
+    Route::get('/projects/data', 'StaffingCompany\StaffingProjectController@getProjects')->name('projects.data');
+
     });
 
 

@@ -15,15 +15,32 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProjectCreatedMail;
 use Illuminate\Support\Facades\Config;
+use Yajra\DataTables\Facades\DataTables;
 
 
 class StaffingProjectController extends Controller
 {
     public function index()
     {
+        return view('StaffingCompany.project.index');
+
         $projects = StaffingProject::with('department')->latest('id')->get();
         return view('StaffingCompany.project.index')->with('projects', $projects);
     }
+
+
+    public function getProjects()
+{
+    return DataTables::of(StaffingProject::with('department'))
+        ->addColumn('status', function ($project) {
+            return $project->active
+                ? "<span style='color:white;padding:3px;font-size:12px;background:green'>Active</span>"
+                : "<span style='color:white;padding:3px;font-size:12px;background:red'>Inactive</span>";
+        })
+        ->rawColumns(['status'])
+        ->make(true);
+}
+
 
     public function create()
     {

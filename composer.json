@@ -17,7 +17,8 @@
         "laravel/tinker": "^1.0",
         "laravelcollective/html": "^5.7",
         "skagarwal/google-places-api": "^1.2",
-        "tymon/jwt-auth": "^1.0"
+        "tymon/jwt-auth": "^1.0",
+        "yajra/laravel-datatables-oracle": "^8.13"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

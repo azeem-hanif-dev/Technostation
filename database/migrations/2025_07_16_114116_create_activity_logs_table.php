@@ -19,7 +19,7 @@ class CreateActivityLogsTable extends Migration
        $table->string('user_name')->nullable();
        $table->string('action');
        $table->string('model')->nullable();
-       $table->string('url')->nullable();
+       $table->text('url')->nullable();
        $table->text('description')->nullable();
        $table->ipAddress('ip_address')->nullable();
        $table->timestamps();

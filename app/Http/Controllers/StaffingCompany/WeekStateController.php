@@ -17,17 +17,69 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use PDF;
+use Yajra\DataTables\Facades\DataTables;
 
 class WeekStateController extends Controller
 {
-    public function index()
-    {
-        $years = _getPastYears(10);
-        $week_states = WeekState::all()->sortByDesc('created_at');
-        $project_names = '';
 
-        return view('StaffingCompany.WeekState.index', compact('years', 'week_states', 'project_names'));
+public function index()
+{
+    $years = _getPastYears(10);
+    return view('StaffingCompany.WeekState.index', compact('years'));
+}
+
+public function getWeekStates(Request $request)
+{
+    $weekStates = WeekState::with('projects')->latest('created_at');
+
+    // Filter by week number if provided
+    if ($request->filled('week_no')) {
+        $week = $request->year . str_pad($request->week_no, 2, '0', STR_PAD_LEFT);
+        $weekStates->where('week_no', $week);
     }
+
+    // Filter by "only open"
+    if ($request->filled('status') && $request->status == 'open') {
+        $weekStates->where('approved', 0);
+    }
+
+    return DataTables::of($weekStates)
+        ->filter(function ($query) use ($request) {
+            // This enables searching project name in DataTables search box
+            if ($request->has('search') && $request->search['value']) {
+                $search = $request->search['value'];
+                $query->whereHas('projects', function ($q) use ($search) {
+                    $q->where('name', 'like', "%{$search}%");
+                });
+            }
+        })
+       ->addColumn('project', function ($weekState) {
+    if ($weekState->projects->isEmpty()) {
+        return '<span style="background-color: #ff8200; color:white;">No projects available</span>';
+    }
+    return $weekState->projects->pluck('name')->implode('<br>');
+})
+->addColumn('actions', function ($weekState) {
+    $viewUrl = route('week-state.view', $weekState->id);
+    $editUrl = route('week-state.edit', $weekState->id);
+    $deleteFormId = "delete-form-{$weekState->id}";
+
+    return "
+        <div class='row'>
+            <a href='{$viewUrl}'><i style='color:green' class='col fa fa-eye'></i></a>
+            <a href='{$editUrl}'><i style='color:green' class='col far fa-edit'></i></a>
+            <form id='{$deleteFormId}' method='POST' action='".route('week-state.destroy', $weekState->id)."' >
+                ".csrf_field().method_field('DELETE')."
+                <i style='color:red' onclick='confirmDelete({$weekState->id})' class='col fas fa-trash'></i>
+            </form>
+        </div>
+    ";
+})
+->rawColumns(['project', 'actions'])
+->make(true);
+
+}
+
 
     public function create()
     {
@@ -130,13 +182,17 @@ class WeekStateController extends Controller
         return response()->json($week_state);
     }
 
-    public function view($id, Request $request)
-    {
-        $week_state = WeekState::with('weekCards')->find($id);
-        $project = StaffingProject::find($request->project_id);
+public function view($id, Request $request)
+{
+    $week_state = WeekState::with('weekCards', 'projects')->findOrFail($id);
 
-        return view('StaffingCompany.WeekState.show', compact('week_state', 'project'));
-    }
+    // Load project: either from request or first attached project
+    $project = $request->project_id
+        ? StaffingProject::find($request->project_id)
+        : $week_state->projects->first();
+
+    return view('StaffingCompany.WeekState.show', compact('week_state', 'project'));
+}
     // public function edit($id, Request $request)
     // {
     //     $project_id = $request->project_id;
@@ -156,35 +212,35 @@ class WeekStateController extends Controller
 
     //     return view('StaffingCompany.WeekState.update',compact('id','projects','personnels','comments','project_id','translations'));
     //
-    public function edit_week($id, Request $request)
-    {
-        $project_id = $request->project_id;
-        // $projects = StaffingProject::where('active', true)
-        //     ->orderBy('name')
-        //     ->get();
-        $projects = StaffingProject::with('projectPerformer')
-        ->where('active', true)
-        ->orderBy('name')
-        ->get();
-        $personnel_ids = EmployeeProjectPlanning::where('project_id', $project_id)
-            ->pluck('employee_id')
-            ->unique()
-            ->toArray();
+ public function edit_week($id, Request $request)
+{
+    $week_state = WeekState::with('weekCards', 'projects')->findOrFail($id);
 
+    // Load project
+    $project = $request->project_id
+        ? StaffingProject::with('projectPerformer')->find($request->project_id)
+        : $week_state->projects->first();
 
-        $week_cards = SfWeekCard::where('week_state_id', $id)
-            ->select('id', 'personnel_id', 'hours_1', 'hours_2', 'hours_3', 'hours_4', 'hours_5', 'hours_6', 'hours_7', 'total_hours', 'customer', 'cost', 'directing', 'comments', 'time_approve')
-            ->get();
-        // Retrieve personnels based on project ID
-        $personnels = Personnel::whereIn('id', $personnel_ids)->get();
-        $comments = Comment::all();
-        $translations = __('Staffing_Company/Week_State/crud');
-        //        if user has role StaffingCompany the allow approved check box to approve week state
-        $approved_allow = _user()->role_id === 14 ? 1 : 0;
+    $project_id = $project ? $project->id : null;
 
-        return view('StaffingCompany.WeekState.update', compact('id', 'projects', 'personnels', 'comments', 'project_id', 'translations', 'approved_allow', 'week_cards'));
-    }
+    // Then load personnels and week cards
+    $personnel_ids = $project_id 
+        ? EmployeeProjectPlanning::where('project_id', $project_id)->pluck('employee_id')->unique()->toArray()
+        : [];
 
+    $personnels = Personnel::whereIn('id', $personnel_ids)->get();
+
+    $week_cards = SfWeekCard::where('week_state_id', $id)->get();
+
+    $projects = StaffingProject::with('projectPerformer')->where('active', true)->orderBy('name')->get();
+    $comments = Comment::all();
+    $translations = __('Staffing_Company/Week_State/crud');
+    $approved_allow = _user()->role_id === 14 ? 1 : 0;
+
+    return view('StaffingCompany.WeekState.update', compact(
+        'id','projects','personnels','comments','project_id','translations','approved_allow','week_cards'
+    ));
+}
     public function update(Request $request, WeekState $week_state)
     {
         $project = StaffingProject::find($request->project);
