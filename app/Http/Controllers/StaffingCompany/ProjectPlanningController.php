@@ -561,6 +561,9 @@ class ProjectPlanningController extends Controller
                         }
                     }
                 }
+                
+                $hours[6] = 0;
+                $hours[7] = 0;
 
                 SfWeekCard::create([
                     'week_state_id' => $weekState->id,
