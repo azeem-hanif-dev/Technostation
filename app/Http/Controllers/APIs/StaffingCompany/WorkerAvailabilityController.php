@@ -6,13 +6,14 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\StaffingCompany\StaffingProject;
+use App\Models\StaffingCompany\SfWeekCard;
 use App\Models\StaffingCompany\WorkerAvailability;
 use App\Models\StaffingCompany\EmployeeProjectPlanning;
 
 class WorkerAvailabilityController extends Controller
 {
 
-    public function index($id)
+  public function index($id)
     {
         $today = Carbon::today()->format('Y-m-d');
         $workerAvailability = WorkerAvailability::where('employee_id', $id)
@@ -31,9 +32,26 @@ class WorkerAvailabilityController extends Controller
             return $item;
         });
 
+        $weekStates = SfWeekCard::where('personnel_id', $id)
+            ->where('time_approve', 1)
+            ->with(['weekState.staffingProjects' => function ($query) {
+                $query->select('staffing_projects.id', 'name');
+            }])
+            ->get(['week_state_id', 'total_hours']);
+
+        // Transform to keep only what you want
+        $projects = $weekStates->map(function ($weekCard) {
+            return [
+                'name' => optional($weekCard->weekState->staffingProjects->first())->name,
+                'total_hours' => $weekCard->total_hours,
+            ];
+        });
+
+
         return response()->json([
             'status' => true,
             'data' => $workerAvailability,
+            'projects' => $projects
         ], 200);
     }
 
