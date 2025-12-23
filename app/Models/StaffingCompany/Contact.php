@@ -22,10 +22,10 @@ class Contact extends Model
     ];
     use SoftDeletes;
 
-    // public function department(): BelongsTo
-    // {
-    //     return $this->belongsTo(Department::class, 'department_id');
-    // }
+    public function department(): BelongsTo
+    {
+        return $this->belongsTo(Department::class, 'department_id');
+    }
 
     // NEW MANY-TO-MANY RELATION
     public function departments(): BelongsToMany
